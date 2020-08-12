@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -8,19 +9,27 @@ using WebsiteFlygplan.Models;
 
 namespace WebsiteFlygplan.Controllers
 {
+    [Authorize]
     public class IdeasController : ApiController
     {
-        private WebsiteFlygplanContext db = new WebsiteFlygplanContext();
+        private IdeasContext db = new IdeasContext();
 
         // GET: api/Ideas
         public IQueryable<Idea> GetIdeas()
-        {
+        { 
             return db.Ideas;
+        }
+
+        [Route("api/Ideas/GetIdeasFromCurrentUser")]
+        public IQueryable<Idea> GetIdeasFromCurrentUser()
+        {
+            var userId = User.Identity.GetUserId();
+            return db.Ideas.Where(m => m.UserId == userId);
         }
 
         // GET: api/Ideas/5
         [ResponseType(typeof(Idea))]
-        public IHttpActionResult GetIdea(int id)
+        public IHttpActionResult GetIdea(string id)
         {
             Idea idea = db.Ideas.Find(id);
             if (idea == null)
@@ -33,7 +42,7 @@ namespace WebsiteFlygplan.Controllers
 
         // PUT: api/Ideas/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutIdea(int id, Idea idea)
+        public IHttpActionResult PutIdea(string id, Idea idea)
         {
             if (!ModelState.IsValid)
             {
@@ -43,6 +52,13 @@ namespace WebsiteFlygplan.Controllers
             if (id != idea.Id)
             {
                 return BadRequest();
+            }
+
+            var userId = User.Identity.GetUserId();
+
+            if(userId != idea.UserId)
+            {
+                return StatusCode(HttpStatusCode.Conflict);
             }
 
             db.Entry(idea).State = EntityState.Modified;
@@ -75,6 +91,9 @@ namespace WebsiteFlygplan.Controllers
                 return BadRequest(ModelState);
             }
 
+            //string userId = User.Identity.GetUserId();
+            //idea.UserId = userId;
+
             db.Ideas.Add(idea);
             db.SaveChanges();
 
@@ -83,7 +102,7 @@ namespace WebsiteFlygplan.Controllers
 
         // DELETE: api/Ideas/5
         [ResponseType(typeof(Idea))]
-        public IHttpActionResult DeleteIdea(int id)
+        public IHttpActionResult DeleteIdea(string id)
         {
             Idea idea = db.Ideas.Find(id);
             if (idea == null)
@@ -106,7 +125,7 @@ namespace WebsiteFlygplan.Controllers
             base.Dispose(disposing);
         }
 
-        private bool IdeaExists(int id)
+        private bool IdeaExists(string id)
         {
             return db.Ideas.Count(e => e.Id == id) > 0;
         }

@@ -197,12 +197,14 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdeasController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Idea.cs" />
+    <Compile Include="Models\IdeasContext.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\WebsiteFlygplanContext.cs" />
@@ -255,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Main\" />
     <Folder Include="Views\WebApi\" />
   </ItemGroup>
   <ItemGroup>
