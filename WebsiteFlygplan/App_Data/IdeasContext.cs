@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace WebsiteFlygplan.Models
 {
@@ -19,6 +15,6 @@ namespace WebsiteFlygplan.Models
         {
         }
 
-        public System.Data.Entity.DbSet<WebsiteFlygplan.Models.Idea> Ideas { get; set; }
+        public DbSet<Idea> Ideas { get; set; }
     }
 }

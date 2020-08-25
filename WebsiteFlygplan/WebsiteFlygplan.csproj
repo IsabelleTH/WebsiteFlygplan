@@ -197,22 +197,23 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdeasController.cs" />
-    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\ImageController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Idea.cs" />
-    <Compile Include="Models\IdeasContext.cs" />
+    <Compile Include="App_Data\IdeasContext.cs" />
+    <Compile Include="Models\ImageModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\RegisterViewModel.cs" />
-    <Compile Include="Models\WebsiteFlygplanContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
-    <Compile Include="Service\ApplicationDbContext.cs" />
+    <Compile Include="App_Data\ApplicationDbContext.cs" />
     <Compile Include="Service\ApplicationSignInManager.cs" />
     <Compile Include="Service\ApplicationUserManager.cs" />
+    <Compile Include="App_Data\ImageContext.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -254,10 +255,11 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Image\Add.cshtml" />
+    <Content Include="Views\Image\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Views\Main\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\WebApi\" />
   </ItemGroup>
   <ItemGroup>
