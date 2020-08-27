@@ -1,17 +1,24 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebsiteFlygplan.Models;
+using WebsiteFlygplan.Models.Dtos;
 using WebsiteFlygplan.Service;
+using ActionResult = System.Web.Mvc.ActionResult;
+using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 
 namespace WebsiteFlygplan.Controllers
 {
-    public class ImageController : Controller
+    public class ImageController : System.Web.Mvc.Controller
     {
         
-        public ActionResult Add()
+        public System.Web.Mvc.ActionResult Add()
         {
             return View();
         }
@@ -47,23 +54,35 @@ namespace WebsiteFlygplan.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddImages(HttpPostedFileBase[] files)
+        public ActionResult AddImages(ImageModel model)
         {
+            
             if(ModelState.IsValid)
             {
                 //iterate through multiple file collection
-                foreach(HttpPostedFileBase file in files)
+                foreach(HttpPostedFileBase file in model.files)
                 {
                     if(file != null)
                     {
                         string fileName = Path.GetFileName(file.FileName);
+                        model.ImagePath = fileName;
                         string serverSavePath = Path.Combine(Server.MapPath("~/Images/"), fileName);
                         //save file to server folder
                         file.SaveAs(serverSavePath);
                         //send message to user 
-                        ViewBag.Message = files.Count().ToString() + " was successfully uploaded";
                     }
                 }
+
+                using (ImageContext context = new ImageContext())
+                {
+                    for (int i = 0; i < model.files.Length; i++)
+                    {
+                        context.ImageModels.Add(model);
+                        context.SaveChanges();
+                    }
+                }
+
+                ViewBag.Message = model.files.Count().ToString() + " files was successfully uploaded";
             }
 
             return View("Add");
@@ -77,6 +96,32 @@ namespace WebsiteFlygplan.Controllers
               model = context.ImageModels.Where(m => m.ImageId == id).FirstOrDefault();
             }
             return View(model);
+        }
+
+       
+
+        public ActionResult ViewImages(int? id)
+        {
+            ImageContext db = new ImageContext();
+
+            if(id == null)
+            {
+                return View("Index");
+            }
+
+           
+            return View();
+        }
+
+        public IEnumerable<ImageModel> ViewImageModels()
+        {
+            ImageContext context = new ImageContext();
+            var a = from o in context.ImageModels
+                    select new ImageModel
+                    {
+                        ImagePath = o.ImagePath
+                    };
+            return a.ToList();
         }
     }
 }
