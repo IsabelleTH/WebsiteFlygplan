@@ -1,4 +1,6 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -44,7 +46,20 @@ namespace WebsiteFlygplan
             //Enable / add Cors
             // ** Dont forget to add data annotation to controller
             // config.EnableCors();
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);   
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider
+                {
+
+
+                }
+            });
+
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
         }
 
         //Generate and return instances of db context and user manager

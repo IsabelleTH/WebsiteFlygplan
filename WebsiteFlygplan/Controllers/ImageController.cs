@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Mvc;
 using WebsiteFlygplan.Models;
 using WebsiteFlygplan.Models.Dtos;
 using WebsiteFlygplan.Service;
@@ -86,6 +83,18 @@ namespace WebsiteFlygplan.Controllers
             }
 
             return View("Add");
+        }
+
+        public ActionResult DisplayImages()
+        {
+            ImageContext context = new ImageContext();
+            var images = (from i in context.ImageModels
+                          select new ImageModelDto
+                          {
+                              ImageId = i.ImageId,
+                              ImagePath = i.ImagePath
+                          }).ToList();
+            return View(images);
         }
 
         public ActionResult View(int id)

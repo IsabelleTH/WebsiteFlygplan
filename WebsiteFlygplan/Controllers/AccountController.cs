@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Threading.Tasks;
 using System.Web;
@@ -73,7 +74,8 @@ namespace WebsiteFlygplan.Controllers
             if(ModelState.IsValid)
             {
                 var result = await SignInManager.PasswordSignInAsync(loginView.Email, loginView.Password, shouldLockout: false, isPersistent: false);
-                switch(result)
+                
+                switch (result)
                 {
                     case SignInStatus.Success:
                         return RedirectToAction("Index", "Home");
@@ -118,6 +120,13 @@ namespace WebsiteFlygplan.Controllers
             }
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult LogOut()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Login", "Account");
         }
     }
 }

@@ -26,5 +26,15 @@ namespace WebsiteFlygplan.Controllers
 
             return View();
         }
+
+        public ActionResult Footer()
+        {
+            return View();
+        }
+
+        public ActionResult Footer1()
+        {
+            return View();
+        }
     }
 }

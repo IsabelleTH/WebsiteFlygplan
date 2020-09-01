@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebsiteFlygplan.Models.Dtos.ImageModelDto>
+
+
+
+<h2>Display Images</h2>
+
+<div>
+    <h4>ImageModelDto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        @foreach (var item in Model)
+        {
+            <dd>
+                <img src="@Url.Content("~/Images/" + item.ImagePath)" height="250" width="250" />
+            </dd>
+        }
+
+    </dl>
+</div>
+

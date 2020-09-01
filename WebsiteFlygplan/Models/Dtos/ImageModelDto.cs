@@ -4,7 +4,6 @@ namespace WebsiteFlygplan.Models.Dtos
 {
     public class ImageModelDto
     {
-       
         public int ImageId { get; set; }
         public string Title { get; set; }
         public string ImagePath { get; set; }
